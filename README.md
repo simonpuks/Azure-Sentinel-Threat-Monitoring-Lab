@@ -116,36 +116,6 @@ Security incidents are then investigated using KQL queries, while dashboards and
 
 ---
 
-Copy and paste this 👇
-
-Markdown## 🔍 Threat Hunting (KQL)### 🔸 Failed Login Detection```kqlSecurityEvent| where EventID == 4625| summarize Count = count() by IpAddress| order by Count descShow more lines
-✅ Identifies brute-force login attempts
-
-🔸 Successful Login Detection
-KQLSecurityEvent| where EventID == 4624Show more lines
-✅ Tracks successful authentication events
-
-🔸 Top Attacking IPs
-KQLSecurityEvent| where EventID == 4625| summarize Attempts = count() by IpAddress| order by Attempts descShow more lines
-✅ Highlights suspicious source IPs
-📷 Example Output: images/kql-failed-logins.png
-
-🚨 Detection & Automation (Analytics Rules)
-🔹 Brute Force Detection (RDP & SSH Activity)
-Detects multiple failed login attempts from the same IP address within a short time window, indicating brute-force attack activity.
-Detection Logic:
-
-EventID 4625 (failed logons)
-Same source IP
-High-frequency attempts within a short time window
-
-
-🔹 KQL Query
-KQLSecurityEvent| where EventID == 4625| summarize FailedAttempts = count() by IpAddress, bin(TimeGenerated, 5m)| where FailedAttempts > 2``Show more lines
-📷 Detection Rule Configuration: images/rdp-alert-rule.png
-
-
-
 ## 🔍 Threat Hunting (KQL)
 
 ### 🔸 Failed Login Detection
@@ -154,11 +124,47 @@ SecurityEvent
 | where EventID == 4625
 | summarize Count = count() by IpAddress
 | order by Count desc
+```
+✅ Identifies brute-force login attempts
 
+### 🔸 Successful Login Detection
+```kql
+SecurityEvent
+| where EventID == 4624
+```
+✅ Tracks successful authentication events
 
+### 🔸 Top Attacking IPs
+```kql
+SecurityEvent
+| where EventID == 4625
+| summarize Attempts = count() by IpAddress
+| order by Attempts desc
+```
 
+✅ Highlights suspicious source IPs
 
+📷 Example Output:
+images/kql-failed-logins.png
 
+##🚨 Detection & Automation (Analytics Rules)
+🔹 Brute Force Detection (RDP & SSH Activity)
+
+Detects multiple failed login attempts from the same IP address within a short time window, indicating potential brute-force attack activity.
+
+Detection Logic:
+EventID 4625 (failed logons)
+Same source IP
+High-frequency attempts within a short time window
+🔹 KQL Query
+```kql
+SecurityEvent
+| where EventID == 4625
+| summarize FailedAttempts = count() by IpAddress, bin(TimeGenerated, 5m)
+| where FailedAttempts > 2
+```
+📷 Detection Rule Configuration:
+images/rdp-alert-rule.png
 
 
 
@@ -279,18 +285,11 @@ A Microsoft Sentinel Workbook was created to visualise security insights and att
 
 ## 📁 Repository Structure
 
-``
+
 Azure-Sentinel-Threat-Monitoring-Lab/
 │
 ├── images/
 │   ├── architecture.png
-│   ├── azure-vm.png
-│   ├── vm-networking.png
-│   ├── log-analytics-workspace.png
-│   ├── log-analytics-logs.png
-│   ├── sentinel-overview.png
-│   ├── data-collection-rule.png
-│   ├── data-sources.png
 │   ├── rdp-alert-rule.png
 │   ├── workbook-dashboard.png
 │   ├── automation-rule.png
