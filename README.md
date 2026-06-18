@@ -1,4 +1,4 @@
-**Azure Sentinel Threat Monitoring and Detection Lab**
+## **Azure Sentinel Threat Monitoring and Detection Lab**
 **Project Overview**
 
 This project demonstrates the deployment of a cloud-based Security Operations Centre (SOC) environment using Microsoft Azure and Microsoft Sentinel.
